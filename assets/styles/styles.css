@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+nav {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+}
+
+nav h1 {
+    display: inline;
+    margin-right: 30px;
+}
+
+nav a {
+    color: white;
+    margin-right: 15px;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 25px;
+}
+
+#gameBoard {
+    width: 600px;
+    height: 400px;
+
+    border: 3px solid black;
+
+    position: relative;
+
+    margin-top: 15px;
+
+    overflow: hidden;
+}
+
+#worm,
+#pear,
+#hazard {
+    position: absolute;
+    font-size: 30px;
+}
+
+#worm {
+    left: 50px;
+    top: 50px;
+}
+
+#pear {
+    left: 400px;
+    top: 200px;
+}
+
+#hazard {
+    left: 250px;
+    top: 100px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}
+
+footer a {
+    color: white;
+}

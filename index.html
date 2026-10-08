@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Worm Simulator</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+        href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <nav>
+        <h1>
+            <i class="bi bi-bug-fill"></i>
+            Worm Simulator
+        </h1>
+
+        <a href="index.html">Concept</a>
+        <a href="pages/full.html">Full Game</a>
+    </nav>
+
+
+    <main>
+        <section id="playerSection">
+            <h2>Player</h2>
+            <label for="playerName">Name:</label>
+            <input type="text" id="playerName">
+            <button id="nameBtn">Enter Name</button>
+
+            <p id="greeting">Welcome!</p>
+            <p>Score: <span id="score">0</span></p>
+            <p>HP: <span id="health">3</span></p>
+            <p id="dateTime"></p>
+
+        </section>
+
+        <section id="leaderboard">
+
+            <h2>Leaderboard</h2>
+
+            <ol>
+                <li>WormKing - 100</li>
+                <li>Guest123 - 70</li>
+                <li>AppleEater - 50</li>
+            </ol>
+
+        </section>
+
+        <section>
+            <h2>Game Board</h2>
+            <button id="startBtn">Start</button>
+            <button id="resetBtn">Reset</button>
+            <button id="instructionsBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#instructionsModal">
+                How to Play
+            </button>
+
+            <div id="gameBoard">
+                <div id="worm">🪱</div>
+                <div id="pear">🍐</div>
+                <div id="hazard">💥</div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <div class="modal fade" id="instructionsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">How to Play</h2>
+                    
+                    <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Move your mouse around the game board.</p>
+                    <p>The worm follows your cursor.</p>
+                    <p>Eat pears for 10 points.</p>
+                    <p>Avoid the hazard.</p>
+                    <p>Reach 30 points to win.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://github.com/delonzow/urban-umbrella-dev-charlie">Game Repo</a>
+        |
+        <a href="https://github.com/delonzow">My GitHub</a>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/game-script.js"></script>
+
+</body>
+
+</html>
