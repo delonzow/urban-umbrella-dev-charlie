@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Worm Simulator - Full Game</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    >
+
+    <!-- jQuery UI -->
+    <link
+        rel="stylesheet"
+        href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css"
+    >
+
+    <!-- My CSS -->
+    <link
+        rel="stylesheet"
+        href="../assets/styles/full-game-styles.css"
+    >
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+
+        <div class="container-fluid">
+
+            <a
+                class="navbar-brand"
+                href="../index.html"
+            >
+                <i class="bi bi-bug-fill"></i>
+                Worm Simulator
+            </a>
+
+            <div class="navbar-nav ms-auto">
+
+                <a
+                    class="nav-link"
+                    href="../index.html"
+                >
+                    Concept
+                </a>
+
+                <a
+                    class="nav-link active"
+                    href="full-game.html"
+                >
+                    Full Game
+                </a>
+
+                <button
+                    class="btn btn-outline-light"
+                    data-bs-toggle="modal"
+                    data-bs-target="#instructionsModal"
+                >
+                    <i class="bi bi-question-circle"></i>
+                    How to Play
+                </button>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HEADER -->
+    <header>
+
+        <h1>Worm Simulator: Pear Panic</h1>
+
+        <p>
+            Eat pears. Avoid hazards. Build combos.
+            Survive all five levels.
+        </p>
+
+    </header>
+
+
+    <main class="container-fluid">
+
+        <div class="row">
+
+            <!-- LEFT SIDE -->
+            <aside class="col-3">
+
+                <!-- PLAYER -->
+                <section class="game-card">
+
+                    <h2>
+                        <i class="bi bi-person-circle"></i>
+                        Player
+                    </h2>
+
+                    <label for="playerName">
+                        Worm Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="playerName"
+                        class="form-control"
+                        maxlength="18"
+                        placeholder="Leave blank for guest"
+                    >
+
+                    <button
+                        id="nameBtn"
+                        class="btn btn-success mt-2"
+                    >
+                        Enter Name
+                    </button>
+
+                    <p
+                        id="greeting"
+                        class="mt-3"
+                    >
+                        Welcome!
+                    </p>
+
+                    <hr>
+
+                    <p>
+                        Best Score:
+                        <strong id="bestScore">0</strong>
+                    </p>
+
+                    <p>
+                        Runs:
+                        <strong id="runCount">0</strong>
+                    </p>
+
+                    <p>
+                        Browser:
+                        <strong id="browserInfo">Unknown</strong>
+                    </p>
+
+                    <p>
+                        Time:
+                        <strong id="dateTime">--</strong>
+                    </p>
+
+                </section>
+
+
+                <!-- LEADERBOARD -->
+                <section class="game-card">
+
+                    <h2>
+                        <i class="bi bi-trophy-fill"></i>
+                        Leaderboard
+                    </h2>
+
+                    <ol id="leaderboardList">
+
+                    </ol>
+
+                </section>
+
+
+                <!-- HISTORY -->
+                <section class="game-card">
+
+                    <h2>
+                        <i class="bi bi-clock-history"></i>
+                        Run History
+                    </h2>
+
+                    <div id="runHistory">
+
+                        <p>
+                            No runs yet.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </aside>
+
+
+            <!-- GAME SIDE -->
+            <section class="col-9">
+
+                <div class="game-card">
+
+                    <!-- HUD -->
+                    <div id="hud">
+
+                        <div>
+                            <span>HP</span>
+                            <strong id="health">
+                                ♥ ♥ ♥
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Score</span>
+                            <strong id="score">
+                                0
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Level</span>
+                            <strong id="level">
+                                1 / 5
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Combo</span>
+                            <strong id="combo">
+                                x1
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Time</span>
+                            <strong id="timer">
+                                00:00
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Shield</span>
+                            <strong id="shieldStatus">
+                                OFF
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <!-- LEVEL PROGRESS -->
+                    <div class="progress-info">
+
+                        <span id="levelGoalText">
+                            Level Goal: 0 / 50
+                        </span>
+
+                        <span id="difficultyText">
+                            Difficulty: Normal
+                        </span>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div
+                            id="levelProgress"
+                            class="progress-bar bg-success"
+                            style="width: 0%"
+                        >
+                        </div>
+
+                    </div>
+
+
+                    <!-- GAME BOARD -->
+                    <div
+                        id="gameBoard"
+                        tabindex="0"
+                    >
+
+                        <div id="boardMessage">
+
+                            <i class="bi bi-bug-fill"></i>
+
+                            <h2>
+                                Ready to Wriggle?
+                            </h2>
+
+                            <p>
+                                Enter your name and press Start.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Worm -->
+                        <div id="worm">
+
+                        </div>
+
+
+                        <!-- Layers -->
+                        <div id="foodLayer">
+
+                        </div>
+
+                        <div id="hazardLayer">
+
+                        </div>
+
+                        <div id="powerupLayer">
+
+                        </div>
+
+                        <div id="particleLayer">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONTROLS -->
+                    <div id="controls">
+
+                        <div>
+
+                            <button
+                                id="startBtn"
+                                class="btn btn-success"
+                            >
+                                <i class="bi bi-play-fill"></i>
+                                Start
+                            </button>
+
+                            <button
+                                id="pauseBtn"
+                                class="btn btn-warning"
+                                disabled
+                            >
+                                <i class="bi bi-pause-fill"></i>
+                                Pause
+                            </button>
+
+                            <button
+                                id="resetBtn"
+                                class="btn btn-danger"
+                            >
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                                Reset
+                            </button>
+
+                            <button
+                                id="hintBtn"
+                                class="btn btn-info"
+                            >
+                                <i class="bi bi-lightbulb-fill"></i>
+                                Hint
+                            </button>
+
+                            <button
+                                class="btn btn-secondary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#statsModal"
+                            >
+                                <i class="bi bi-bar-chart-fill"></i>
+                                Stats
+                            </button>
+
+                        </div>
+
+
+                        <div>
+
+                            <label for="difficulty">
+                                Difficulty
+                            </label>
+
+                            <select
+                                id="difficulty"
+                                class="form-select"
+                            >
+
+                                <option value="chill">
+                                    Chill
+                                </option>
+
+                                <option
+                                    value="normal"
+                                    selected
+                                >
+                                    Normal
+                                </option>
+
+                                <option value="chaos">
+                                    Chaos
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LEGEND -->
+                    <div id="legend">
+
+                        <span>
+                            🍐 Pear = points
+                        </span>
+
+                        <span>
+                            ✨ Golden Pear = bonus
+                        </span>
+
+                        <span>
+                            💥 Hazard = damage
+                        </span>
+
+                        <span>
+                            🛡️ Shield
+                        </span>
+
+                        <span>
+                            💚 Heal
+                        </span>
+
+                    </div>
+
+
+                    <p id="liveMessage">
+                        Tip: The worm follows your mouse.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            Worm Simulator - HTML5 Game Project
+        </p>
+
+        <div>
+
+            <!-- CHANGE THESE LINKS -->
+            <a href="#">
+                <i class="bi bi-github"></i>
+                Game Repo
+            </a>
+
+            <a href="#">
+                <i class="bi bi-person-badge"></i>
+                GitHub Profile
+            </a>
+
+            <a href="../index.html">
+                Concept Version
+            </a>
+
+        </div>
+
+    </footer>
+
+
+    <!-- INSTRUCTIONS MODAL -->
+    <div
+        class="modal fade"
+        id="instructionsModal"
+        tabindex="-1"
+    >
+
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h2>
+                        How to Play
+                    </h2>
+
+                    <button
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                    >
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <h3>Goal</h3>
+
+                    <p>
+                        Eat pears and survive five levels.
+                    </p>
+
+
+                    <h3>Controls</h3>
+
+                    <p>
+                        Move your mouse around the game board.
+                        The worm follows your cursor.
+                    </p>
+
+                    <p>
+                        You can also use WASD or the arrow keys.
+                    </p>
+
+                    <p>
+                        Press Space to pause.
+                    </p>
+
+
+                    <h3>Items</h3>
+
+                    <ul>
+
+                        <li>
+                            🍐 Pear = +10 points
+                        </li>
+
+                        <li>
+                            ✨ Golden Pear = +30 points
+                        </li>
+
+                        <li>
+                            💥 Hazard = lose 1 HP
+                        </li>
+
+                        <li>
+                            🛡️ Shield = block one hit
+                        </li>
+
+                        <li>
+                            💚 Health = restore HP
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS MODAL -->
+    <div
+        class="modal fade"
+        id="statsModal"
+        tabindex="-1"
+    >
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h2>
+                        Current Run
+                    </h2>
+
+                    <button
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                    >
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <p>
+                        Player:
+                        <strong id="modalPlayer">---</strong>
+                    </p>
+
+                    <p>
+                        Score:
+                        <strong id="modalScore">0</strong>
+                    </p>
+
+                    <p>
+                        Level:
+                        <strong id="modalLevel">1</strong>
+                    </p>
+
+                    <p>
+                        Pears:
+                        <strong id="modalPears">0</strong>
+                    </p>
+
+                    <p>
+                        Golden Pears:
+                        <strong id="modalGolden">0</strong>
+                    </p>
+
+                    <p>
+                        Hits Taken:
+                        <strong id="modalHits">0</strong>
+                    </p>
+
+                    <p>
+                        Best Combo:
+                        <strong id="modalCombo">x1</strong>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- END GAME MODAL -->
+    <div
+        class="modal fade"
+        id="endGameModal"
+        tabindex="-1"
+        data-bs-backdrop="static"
+    >
+
+        <div class="modal-dialog">
+
+            <div class="modal-content text-center">
+
+                <div class="modal-body">
+
+                    <div id="endGameIcon">
+                        🏆
+                    </div>
+
+                    <h2 id="endGameTitle">
+                        You Win!
+                    </h2>
+
+                    <p id="endGameMessage">
+                        Congratulations!
+                    </p>
+
+                    <h3>
+                        Final Score:
+                        <span id="finalScore">
+                            0
+                        </span>
+                    </h3>
+
+                    <button
+                        id="playAgainBtn"
+                        class="btn btn-success"
+                        data-bs-dismiss="modal"
+                    >
+                        Play Again
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LEVEL MODAL -->
+    <div
+        class="modal fade"
+        id="levelModal"
+        tabindex="-1"
+        data-bs-backdrop="static"
+    >
+
+        <div class="modal-dialog">
+
+            <div class="modal-content text-center">
+
+                <div class="modal-body">
+
+                    <h1>
+                        🪱✨
+                    </h1>
+
+                    <h2>
+                        Level Complete!
+                    </h2>
+
+                    <p id="levelModalText">
+                        Things are getting harder.
+                    </p>
+
+                    <button
+                        id="continueLevelBtn"
+                        class="btn btn-success"
+                        data-bs-dismiss="modal"
+                    >
+                        Continue
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- jQuery -->
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+    >
+    </script>
+
+    <!-- jQuery UI -->
+    <script
+        src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"
+    >
+    </script>
+
+    <!-- Bootstrap -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    >
+    </script>
+
+    <!-- My JavaScript -->
+    <script src="../assets/scripts/full-game-script.js"></script>
+
+</body>
+
+</html>
