@@ -1,5 +1,5 @@
 # Worm Simulator (urban-umbrella-dev-charlie)
-> fun game where you fight to surive!
+> fun game where you fight to survive!
 
 ## authorship
 - [Delonzo Weaver](https://github.com/delonzow), October 8th 2026, Version 1.0
